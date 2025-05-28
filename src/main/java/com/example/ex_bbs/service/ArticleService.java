@@ -47,6 +47,7 @@ public class ArticleService {
      * @param article 登録する記事オブジェクト
      */
     public Article insert(Article article) {
+
         return  articleRepository.insert(article);
     }
 

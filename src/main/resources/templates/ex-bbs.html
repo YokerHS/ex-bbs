@@ -9,7 +9,7 @@
 <!-- フォーム：記事投稿 -->
 <form th:action="@{/article/addArticle}" th:object="${articleForm}" method="post">
     投稿著名:<br>
-    <input type="text" name="name"   ><br>
+    <input type="text" name="name"  ><br>
     <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" satyle="color:red"></div>
 
     投稿内容:<br>

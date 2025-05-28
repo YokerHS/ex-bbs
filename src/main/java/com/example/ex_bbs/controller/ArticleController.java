@@ -41,6 +41,10 @@ public class ArticleController {
         if (result.hasErrors()) {
             List<Article> articleList = articleService.showAll();
             model.addAttribute("articleList", articleList);
+            Article article =new Article();
+            BeanUtils.copyProperties(articleForm, article);
+            System.out.println(article);
+            model.addAttribute("returnArticle",article);
             return "ex-bbs";
         }
 
