@@ -6,12 +6,66 @@
 </head>
 <body>
 
-<div th:each="article:${articleList}">
-    <div th:text="${article.name}"></div>
-    <div th:text="${article.content}"></div>
-    <div th:each="comment:${article.commentList}" th:text="${comment}"></div>
+<!-- フォーム：記事投稿 -->
+<form th:action="@{/article/addArticle}" th:object="${articleForm}" method="post">
+    投稿著名:<br>
+    <input type="text" name="name"   ><br>
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" satyle="color:red"></div>
+
+    投稿内容:<br>
+    <textarea name="content" cols="30" rows="10"  ></textarea><br>
+    <div th:if="${#fields.hasErrors('content')}" th:errors="*{content}" style="color:red"></div>
+
+    <button>送信</button>
+</form>
+
+<br>
+<hr>
+
+<!-- 各記事の表示 -->
+<div th:each="article : ${articleList}">
+    <div >投稿著名: <span th:text="${article.name}"></span></div>
+    <div >投稿内容: <span th:text="${article.content}"></span></div>
+    <br>
+
+
+    <!-- コメント表示 -->
+    <div th:if="${#lists.isEmpty(article.commentList) == false}">
+        <div th:each="comment : ${article.commentList}">
+            <span th:text="${comment.name}"></span>: <span th:text="${comment.content}"></span>
+        </div>
+    </div>
+
+
+    <!-- コメント投稿フォーム -->
+    <form th:action="@{/article/addComment}" th:object="${commentForm}" method="post">
+        名前:<br>
+        <input type="text" name="name"  ><br>
+        <div th:if="${#fields.hasErrors('name')} and ${returnArticleId == article.id}"
+             th:errors="*{name}" style="color:red"></div>
+
+        <input type="hidden" name="articleId" th:value="${article.id}">
+
+        コメント:<br>
+        <textarea name="content" cols="30" rows="10"  ></textarea><br>
+        <div th:if="${#fields.hasErrors('content')} and ${returnArticleId == article.id}"
+             th:errors="*{content}" style="color:red"></div>
+
+
+        <button>送信</button>
+    </form>
+
+    <br>
+
+    <!-- 記事削除ボタン -->
+    <form th:action="@{/article/deleteArticle}" method="post">
+        <input type="hidden" name="articleId" th:value="${article.id}" />
+        <button>削除</button>
+    </form>
+
+    <hr>
 </div>
 
-</div>
+
 </body>
 </html>
