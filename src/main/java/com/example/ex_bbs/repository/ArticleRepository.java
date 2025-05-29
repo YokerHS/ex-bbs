@@ -159,12 +159,10 @@ public class ArticleRepository {
      */
     public void deleteById(Integer id) {
         String sql = """
-                BEGIN;
-                
-                DELETE FROM comments WHERE article_id = :id;
-                DELETE FROM articles WHERE id = :id;
-                
-                COMMIT;
+                WITH deleted_comments AS (
+                        DELETE FROM comments WHERE article_id = :id
+                    )
+                    DELETE FROM articles WHERE id = :id;
                 """;
 
         SqlParameterSource param = new MapSqlParameterSource()

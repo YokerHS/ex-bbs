@@ -58,7 +58,7 @@ public class ArticleController {
     public String addComment(Model model, @Valid CommentForm form, BindingResult result,ArticleForm articleForm) {
         if (result.hasErrors()) {
             model.addAttribute("articleList", articleService.showAll());
-            model.addAttribute("returnArticleId", Integer.parseInt(form.getArticleId()));
+
             return "ex-bbs";
         }
         try{

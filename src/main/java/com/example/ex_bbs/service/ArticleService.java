@@ -4,6 +4,7 @@ import com.example.ex_bbs.Domain.Article;
 import com.example.ex_bbs.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ import java.util.List;
  * </ul>
  */
 @Service
+@Transactional
 public class ArticleService {
 
     /** 記事に関するDB操作を行うリポジトリ */

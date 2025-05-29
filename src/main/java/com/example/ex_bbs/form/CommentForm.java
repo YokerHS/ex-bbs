@@ -22,4 +22,13 @@ public class CommentForm {
     /** コメントの内容 */
     @NotBlank(message = "コメントを入力してください")
     private String content;
+
+    public int getIntArticleId(){
+        if(articleId == null){
+            return 0;
+        }
+        return Integer.parseInt(this.getArticleId());
+    }
+
+
 }

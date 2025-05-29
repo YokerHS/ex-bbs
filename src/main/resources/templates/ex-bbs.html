@@ -8,16 +8,24 @@
 
 <!-- フォーム：記事投稿 -->
 <form th:action="@{/article/addArticle}" th:object="${articleForm}" method="post">
-    投稿著名:<br>
-    <input type="text" name="name"  ><br>
-    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" satyle="color:red"></div>
-
-    投稿内容:<br>
-    <textarea name="content" cols="30" rows="10"  ></textarea><br>
-    <div th:if="${#fields.hasErrors('content')}" th:errors="*{content}" style="color:red"></div>
+    <th:block th:unless="${returnArticle}" >
+        投稿著名:<br>
+        <input type="text" name="name"  ><br>
+        投稿内容:<br>
+        <textarea name="content" cols="30" rows="10"  ></textarea><br>
+    </th:block>
+    <th:block th:if="${returnArticle}" >
+        投稿著名:<br>
+        <input type="text" name="name" th:value="${returnArticle.name}"  ><br>
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red"></div>
+        投稿内容:<br>
+        <textarea name="content" cols="30" rows="10" th:text="${returnArticle.content}" ></textarea><br>
+        <div th:if="${#fields.hasErrors('content')}" th:errors="*{content}" style="color:red"></div>
+    </th:block>
 
     <button>送信</button>
 </form>
+
 
 <br>
 <hr>
@@ -39,18 +47,21 @@
 
     <!-- コメント投稿フォーム -->
     <form th:action="@{/article/addComment}" th:object="${commentForm}" method="post">
-        名前:<br>
-        <input type="text" name="name"  ><br>
-        <div th:if="${#fields.hasErrors('name')} and ${returnArticleId == article.id}"
-             th:errors="*{name}" style="color:red"></div>
 
         <input type="hidden" name="articleId" th:value="${article.id}">
 
-        コメント:<br>
-        <textarea name="content" cols="30" rows="10"  ></textarea><br>
-        <div th:if="${#fields.hasErrors('content')} and ${returnArticleId == article.id}"
-             th:errors="*{content}" style="color:red"></div>
+            名前:<br>
+            <input type="text" name="name" th:unless="${commentForm.intArticleId == article.id}"   ><br>
+            <input type="text" name="name" th:if="${commentForm.intArticleId == article.id}" th:value="${commentForm.name}" ><br>
+            <div th:if="${commentForm.intArticleId == article.id}"
+                 th:errors="*{name}" style="color:red"></div>
 
+            コメント:<br>
+            <textarea name="content" cols="30" rows="10" th:unless="${commentForm.intArticleId == article.id}" ></textarea>
+            <textarea name="content" cols="30" rows="10" th:if="${commentForm.intArticleId == article.id}" th:text="${commentForm.content}" ></textarea>
+            <br>
+            <div th:if="${commentForm.intArticleId == article.id}"
+                 th:errors="*{content}" style="color:red"></div>
 
         <button>送信</button>
     </form>
